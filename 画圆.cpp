@@ -9,7 +9,8 @@ const GLfloat R = 0.5f;
 const GLfloat PI = 3.24250265357f;
 void myDisplay(void) {
     glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_POLYGON);
+    glBegin(GL_POLYGON);//画圆面
+    //glBegin(GL_LINE_LOOP);画圆圈
     for (int i = 0; i<n; i++) {
         glVertex2f(R*cos(2 * PI / n*i), R*sin(2 * PI / n*i));
     }

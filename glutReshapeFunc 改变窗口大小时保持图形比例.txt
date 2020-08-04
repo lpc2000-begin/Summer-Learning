@@ -1,0 +1,18 @@
+窗口宽高比改变时，通过改变窗口显示区域大小，并利用投影矩阵改变观测物体大小使之适应变化。
+void reshape(int w, int h){
+
+glViewport(0,0,(GLsizei) w, (GLsizei) h);//改变显示区域，起始位置为客户端窗口左下角（非坐标原点）
+
+glMatrixMode(GL_PROJECTION);//修改投影矩阵
+
+glLoadIdentity();//导入单位阵
+
+gluPerspective(fovy, (float)w/h,near, far);//宽高比改为当前值，视线区域与屏幕大小一致；
+
+glMatrixMode(GL_MODELVIEW);//修改模型视图
+
+glLoadIdentity();
+
+gluLookAt(eyex...,centerx...,upx...);//观察者位置
+
+}

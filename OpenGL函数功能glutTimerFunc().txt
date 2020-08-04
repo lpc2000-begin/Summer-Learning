@@ -1,0 +1,19 @@
+（1）如果用定时器的话，初始的时候注册一个定时器的回调函数，原型是
+glutTimerFunc(unsigned int millis, void (*func)(int value), int value);
+        参数对应关系为：glutTimerFunc(毫秒数, 回调函数指针, 区别值);
+（2）写自己的回调函数 void OnTimer(int value);
+         用value区分是哪个定时器
+（3）在函数里改变和位置有关的变量，然后调用glutPostRedisplay();用来重绘
+（4）最后再次调用glutTimerFunc，因为glut的定时器是调用一次才产生一次定时，所以如果要持续产生定时的话，
+        在定时函数末尾再次调用glutTimerFunc
+如在main函数中有如此调用：
+glutTimerFunc(33,timerProc,1);
+ 
+我们的timerProc的定义应该这样写：
+void timerProc(int id)
+{
+    g_display();
+ 
+    glutTimerFunc(33,timerProc,1);//需要在函数中再调用一次，才能保证循环
+}
+这样就保证了计时器 的循环调用，而不是只调用一次。

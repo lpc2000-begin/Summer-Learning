@@ -150,23 +150,23 @@ int main(int argc, char *argv[])
 
 	{   
 
-		glutInit(&argc, argv);   
+		glutInit(&argc, argv);   ////glutInit，对GLUT进行初始化，这个函数必须在其它的GLUT使用之前调用一次。其格式比较死板，一般照抄这句glutInit(&argc, argv)就可以了。
 
-		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);//设置显示方式,其中GLUT_RGB表示使用RGB颜色,与之对应的GLUT_INDEX表示使用索引颜色。GLUT_SINGLE表示使用单缓冲，与之对应的还有GLUT_DOUBLE（使用双缓冲）
 
-		glutInitWindowPosition(100, 100);  
+		glutInitWindowPosition(100, 100);  //设置窗口在屏幕中的位置.
 
-		glutInitWindowSize(400, 400);   
+		glutInitWindowSize(400, 400);   //设置窗口的大小
 
-		glutCreateWindow("HelloOpenGL");   
+		glutCreateWindow("我的钟表");   
 
 		glutDisplayFunc(&Draw);   
 
-        glutReshapeFunc(&Reshape); 
+                glutReshapeFunc(&Reshape); 
 
 		glutIdleFunc(&Update); 
 
-		glutMainLoop();   
+		glutMainLoop();   //进行一个消息循环。这个函数可以显示窗口，并且等待窗口关闭后才会返回
 
 		return 0;
 

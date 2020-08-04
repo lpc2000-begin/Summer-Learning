@@ -17,7 +17,20 @@ void myDisplay(void) {
     glEnd();
     glFlush();
 }
-
+/*	glPushMatrix();	
+		glTranslatef(1.5f, 1.0f, -6.0f);
+		glScalef(0.75f,0.75f,0.75f);
+		glRotatef(angle,1.0f,1.0f,1.0f);
+		glColor3f(1.0f, 0.0f, 1.0f);
+		glBegin(GL_TRIANGLE_FAN); //绘制三角形扇 
+			glVertex3f(0,0,0.0f );   
+			for ( int i = 0; i <= 370; i += 10)
+			{
+				float p = (float)(i * 3.14 / 180);
+				glVertex3f((float)sin(p), (float)cos(p), 0.0f );
+			}
+		glEnd();
+	glPopMatrix();*/
 int main(int argc, char *argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);

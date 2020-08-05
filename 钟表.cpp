@@ -12,9 +12,17 @@ void Draw(){
 	glClearColor(1.0,1.0,1.0,0.0);	
 	glClear(GL_COLOR_BUFFER_BIT);  //用白色清空颜色缓冲区    
 	glColor3f(0.0,0.0,0.0);
+	glEnable(GL_BLEND);//抗锯齿处理
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_POINT_SMOOTH);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);  
+        glEnable(GL_POLYGON_SMOOTH);
+	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     //绘制表盘
 	glLineWidth(20);    
-	glBegin(GL_POLYGON); 
+	glBegin(GL_LINE_LOOP); 
 	glColor3f(0.98,0.625,0.12);
 	for (i=0; i<100; i++)    
 	{        

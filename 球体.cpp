@@ -24,7 +24,7 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
  float angle_z = 0.0; 
  float angle_xy = 0.0; 
  int i=0, j=0; 
- glBegin(GL_QUADS);  
+ glBegin(GL_QUADS);  // glBegin(GL_LINE_LOOP); 
  for(i=0; i<M; i++)  
  {   
  angle_z = i * step_z; 

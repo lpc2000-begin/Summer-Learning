@@ -1,0 +1,21 @@
+GLUT 工具箱函数    
+GLUT工具箱提供几种图形3维图形的函数： 
+void glutWireSphere(GLdouble radius,GLint slices, GLint stacks);  丝状球 
+void glutSolidSphere(GLdouble radius,GLint slices, GLint stacks); 实心球 
+void glutWireCube(GLdouble size); 丝状立方体 
+void glutSolidCube(GLdouble size); 实心立方体  
+void glutWireTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nsides,GLint rings); 丝状花环  
+void glutSolidTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nsides,GLint rings); 实心花环  
+void glutWireIcosahedron(void); 丝状20面体 
+void glutSolidIcosahedron(void); 实心20面体 
+void glutWireOctahedron(void); 丝状8面体  
+void glutSolidOctahedron(void); 实心8面体 
+void glutWireTetrahedron(void); 丝状4面体  
+void glutSolidTetrahedron(void); 实心4面体                                   
+void glutWireDodecahedron(GLdouble radius); 丝状12面体 
+void glutSolidDodecahedron(GLdouble radius); 实心12面体 
+void glutWireCone(GLdouble radius, GLdouble height,GLint slices, GLint stacks); 丝状圆锥体  
+void glutSolidCone(GLdouble radius, GLdouble height,GLint slices, GLint stacks); 实心圆锥体  
+void glutWireTeapot(GLdouble size); 丝状茶壶 
+void glutSolidTeapot(GLdouble size); 实心茶壶  
+如果需要用到长方体那就用glScalef(x,y,z); 做自己想要的长方体，这儿的x,y,z分别对应x,y,z轴的缩放比例 

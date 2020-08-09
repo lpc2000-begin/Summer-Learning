@@ -49,3 +49,19 @@ glEnd(); // 绘制结束
 glMatrixMode(GL_PROJECTION);
 glLoadIdentity(); // 抛弃之前的更改
 gluOrtho2D(clipAreaXLeft, clipAreaXRight, clipAreaYBottom, clipAreaYTop); // 设置二维正交视图区域
+
+void reshape(int w, int h){
+
+       glViewport(0, 0, w, h);//设置视口
+
+       glMatrixMode(GL_PROJECTION);//切换到投影矩阵
+
+       glLoadIdentity();//用单位矩阵替换当前变换矩阵
+
+       gluPerspective(45, (float)w/h, 4, 100.0);//设置透视投影视图体
+
+       glMatrixMode (GL_MODELVIEW);//设置完成后开始画图,需要切换到 模型视图矩阵 才能正确画图
+
+       glLoadIdentity();
+
+}

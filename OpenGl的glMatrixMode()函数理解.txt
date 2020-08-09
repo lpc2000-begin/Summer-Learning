@@ -1,0 +1,51 @@
+glMatrixMode()函数的参数，这个函数其实就是对接下来要做什么进行一下声明，也就是在要做下一步之前告诉计算机我要对“什么”进行操作了，这个“什么”在glMatrixMode的“()”里的选项(参数)有3种模式: GL_PROJECTION 投影, GL_MODELVIEW 模型视图, GL_TEXTURE 纹理.
+
+如果参数是GL_PROJECTION，这个是投影的意思，就是要对投影相关进行操作，也就是把物体投影到一个平面上，就像我们照相一样，把3维物体投到2维的平面上。这样，接下来的语句可以是跟透视相关的函数，比如glFrustum()或gluPerspective()；
+在操作投影矩阵以前，需要调用函数：
+glMatrixMode(GL_PROJECTION); //将当前矩阵指定为投影矩阵
+然后把矩阵设为单位矩阵：
+glLoadIdentity();
+然后调用glFrustum()或gluPerspective(),它们生成的矩阵会与当前的矩阵相乘,生成透视的效果；
+
+如果参数是GL_MODELVIEW，这个是对模型视景的操作，接下来的语句描绘一个以模型为基础的适应，这样来设置参数，接下来用到的就是像gluLookAt()这样的函数；
+若是GL_TEXTURE，就是对纹理相关进行操作
+顺便说下，OpenGL里面的操作，很多是基于对矩阵的操作的，比如位移，旋转，缩放，所以，这里其实说的规范一点就是glMatrixMode是用来指定哪一个矩阵是当前矩阵，而它的参数代表要操作的目标，GL_PROJECTION是对投影矩阵操作，GL_MODELVIEW是对模型视景矩阵操作，GL_TEXTURE是对纹理矩阵进行随后的操作。
+
+切换当前矩阵.
+如.要使用透视(3D).那么先要设置透视投影
+glMatrixMode(GL_PROJECTION); //切换到投影矩阵.
+//...设置透视投影
+设置完成后开始画图,需要切换到 模型视图矩阵 才能正确画图.
+glMatrixMode(GL_MODELVIEW);
+// 画一个物体A (看起来是3D的),
+// 如这时候需画一个 2D效果 的 物体A,那么又需要透视投影
+
+glMatrixMode(GL_PROJECTION); //切换到投影矩阵..
+// ..设置正交投影
+//..设置完成,切换回模型视图矩阵.....
+glMatrixMode(GL_MODELVIEW);
+// 再画一个物体A (看起来是2D的)
+// 如从头到尾都是画3D/2D, 只需初始化时设置一次.
+// 如果有交替,那么就需要glMatrixMode() 切换
+// 因这样设置很烦人,所以又有glPushMatrix() 保存当前矩阵
+
+对模型视图矩阵操作的例子
+glMatrixMode(GL_MODELVIEW);
+glLoadIdentity(); // 将当前所选中的模型视图矩阵置为单位矩阵，即抛弃之前的更改
+glTranslatef(ballX, ballY, 0.0f); // 对此矩阵应用位移操作
+glBegin(GL_TRIANGLE_FAN);  // 开始绘制三角形扇形序列
+glColor3f(1.0f, 0.0f, 0.0f);
+glVertex2f(0.0f, 0.0f);
+int numSegments = 100;
+GLfloat angle;
+for (int i = 0; i <= numSegments; i++)
+{
+    angle = i * 2.0f * PI / numSegments;
+    glVertex2f(cos(angle) * ballRadius, sin(angle) * ballRadius); // 指定顶点
+}
+glEnd(); // 绘制结束
+
+对投影矩阵操作的例子
+glMatrixMode(GL_PROJECTION);
+glLoadIdentity(); // 抛弃之前的更改
+gluOrtho2D(clipAreaXLeft, clipAreaXRight, clipAreaYBottom, clipAreaYTop); // 设置二维正交视图区域

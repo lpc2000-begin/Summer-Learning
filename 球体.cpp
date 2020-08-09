@@ -66,10 +66,10 @@ void display(void)
 //在窗口改变大小时调用
 void reshape(int w, int h){
        glViewport(0, 0, w, h);//设置视口
-       glMatrixMode(GL_PROJECTION);//设置当前为投影变换模式
+       glMatrixMode(GL_PROJECTION);//切换到投影矩阵
        glLoadIdentity();//用单位矩阵替换当前变换矩阵
-       gluPerspective(45, (float)w/h, 4, 100.0);//设置正交投影视图体
-       glMatrixMode (GL_MODELVIEW);
+       gluPerspective(45, (float)w/h, 4, 100.0);//设置透视投影视图体
+       glMatrixMode (GL_MODELVIEW);//设置完成后开始画图,需要切换到 模型视图矩阵 才能正确画图
        glLoadIdentity();
 }
 void TimerFunction(int value)

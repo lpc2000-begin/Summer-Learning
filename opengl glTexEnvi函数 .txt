@@ -1,0 +1,37 @@
+glTexEnvi
+
+　　void glTexEnv {i f} (GLenum target, GLenum pname, TYPE param); 
+
+　　设置当前的纹理映射方式。参数target必须为GL_TEXTURE_FILTER_CONTROL或GL_TEXTURE_ENV。 
+
+　　如果参数pname为GL_TEXTURE_FILTER_CONTROL，pname必须为GL_TEXTURE_LOD_BIAS，而param是一个浮点数，用于指定GL_TEXTURE_LOD_BIAS的值。 
+
+　　参数target为GL_TEXTURE_ENV时，参数pname和param的取值见下表。 
+ 
+
+　　如果pname为GL_TEXTURE_ENV_MODE，则参数param指定了如何将纹理值和片元的颜色值合并起来。 
+
+　　如果纹理映射方式为GL_BLEND，将使用GL_TEXTURE_ENV_COLOR的值来与片元混合，因此必须设置它。 
+
+　　如果纹理映射方式为GL_COMBINE，还可能需要设置参数GL_COMBINE_RGB、GL_COMBINE_ALPHA、GL_RGB_SCALE或GL_ALPHA_SCALE。如果设置了参数GL_COMBINE_RGB，还可能需要设置参数GL_SOURCEi_RGB和GL_OPERANDi_RGB（其中i 为0、1或2）的值；同样，如果设置了参数GL_COMBINE_ALPHA，还可能需要设置参数GL_SOURCEi_ALPHA和GL_OPERANDi_ALPHA的值。
+
+
+
+ // 复制字符像素到纹理
+    // 注意纹理的格式
+    // 不使用通常的GL_RGBA，而使用GL_LUMINANCE4
+    // 因为字符本来只有一种颜色，使用GL_RGBA浪费了存储空间
+    // GL_RGBA可能占16位或者32位，而GL_LUMINANCE4只占4位
+    {
+        GLuint texID;
+        glGenTextures(1, &texID);
+        glBindTexture(GL_TEXTURE_2D, texID);
+        glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE4,
+            0, 0, TEXTURE_SIZE, TEXTURE_SIZE, 0);
+        glTexParameteri(GL_TEXTURE_2D,
+            GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,
+            GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        return texID;
+    }
+缓解的办法就是使用GL_LUMINANCE4这种格式，它不单独保存红、绿、蓝颜色，而是把这三种颜色合起来称为“亮度”，纹理中只保存这种亮度，一个像素只用四个二进制位保存亮度，比原来的16个、32个要节省不少。注意这种格式不会保存alpha值，如果要从纹理中取alpha值的话，总是返回1.0。

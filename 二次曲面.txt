@@ -1,0 +1,81 @@
+绘制二次曲面的步骤如下：
+1. 创建二次曲面对象。gluNewQuadric。绘制二次曲面是复杂的工作，设计到各种数学理论的使用和计算，glu库简化了这一步骤，可以把二次曲面对象理解为一个结构体，保存着各种glu看得懂的信息。
+2. 设置二次却面绘制风格。gluQuadricDrawStyle。一般都是选用GLU_FILL风格，采用多边形来模拟
+3.设置法线风格。gluQuadricNormals。一般都是使用GLU_SMOOTH风格，对每个顶点都计算法线向量，是默认方式
+4.设置二次曲面的绘制方向。gluQuadricOrientation。一般使用GLU_OUTSIDE, 按照所有的法线都指向外面的方式绘制。是默认方式
+5.设置纹理。gluQuadricTexture。设置是否自动计算纹理。默认是GLU_FALSE。当需要使用纹理时应修改为GLU_TRUE.
+6.调用二次曲面绘制函数。gluCylinder/gluSphere/gluDisk/gluPartialDisk
+eg:
+<span style="color: #339966;">//声明对象</span>
+GLUquadricObj   *uquadric;
+<span style="color: #339966;">//初始化二次曲面并创建一个指向二次曲面的指针</span>
+uquadric = gluNewQuadric();
+<span style="color: #339966;">//在二次曲面的表面创建平滑的法向量</span>
+gluQuadricNormals(uquadric,GL_SMOOTH);
+<span style="color: #339966;">//允许二次曲面使用纹理</span>
+gluQuadricTexture(uquadric,TRUE);
+
+void earth()
+{
+  GLUquadricObj* qobj;//二次曲面声明类型
+  
+	qobj = gluNewQuadric();//申请空间
+
+	glPushMatrix();
+  
+  glBindTexture(GL_TEXTURE_2D, texName);//允许建立一个绑定到目标纹理的有名称的纹理。
+
+	glEnable(GL_TEXTURE_2D);//启用二维纹理
+
+	gluQuadricTexture(qobj, GL_TRUE);//纹理函数
+
+	//glutSolidSphere(10, 200, 200);                //画球体   
+
+	gluSphere(qobj, 5, 60, 60); //二次曲面qobj
+
+	glDisable(GL_TEXTURE_2D);//禁用二维纹理
+
+	glPopMatrix();
+}
+圆柱形：
+ void gluCylinder( GLUquadric* quad,    --创建的二次曲面指针
+    GLdouble base,                                 --底面圆形的半径
+    GLdouble top,                                   --顶面圆形的半径
+    GLdouble height,                               --圆锥的高度
+    GLint slices,                                      --纬线 环绕z轴的细分面（数字越大越平滑，相应的速度越慢）
+    GLint stacks )                                    --经线 沿着z轴的细分面（数字越大越平滑，相应的速度越慢）
+
+ 
+ 
+圆锥：
+圆锥的实现函数和圆柱体是一样的，只要将顶面圆形的半径设为0就可以了。
+ 
+圆面：
+void gluDisk(
+　　　　GLUquadricObj *qobj, 　　　　 --创建的二次曲面指针
+　　　　GLdouble innerRadius,　　　　　--内圆的半径
+　　　　GLdouble outerRadius,　　　　　--外圆的半径
+　　　　GLint slices,　　　　　　　　　　　　　 --沿半径的细切面（数字越大越平滑，相应的速度越慢）
+　　　　GLint loops　　　　　　　　　　　　　　--绕圆心的细切面（数字越大越平滑，相应的速度越慢）
+);
+
+ 
+球体：
+void gluSphere(
+　　　　GLUquadricObj *qobj,　　　　--创建的二次曲面指针
+　　　　GLdouble radius,　　　　　　　　--球半径
+　　　　GLint slices,　　　　　　　　　　　　--纬线细分面（数字越大越平滑，相应的速度越慢）
+　　　　GLint stacks　　　　　　　　　　　 --经线细分面（数字越大越平滑，相应的速度越慢）
+);
+
+ 
+扇形：
+void gluPartialDisk(
+　　　　GLUquadricObj *qobj,　　　　　　  --创建的二次曲面指针
+　　　　GLdouble innerRadius,　　　　　　　--内圆的半径
+　　　　GLdouble outerRadius,　　　　　　　--外圆的半径
+　　　　GLint slices,　　　　　　　　　　　　　 　　--沿半径的细切面（数字越大越平滑，相应的速度越慢）
+　　　　GLint loops　　　　　　　　　　　　　　　　--绕圆心的细切面（数字越大越平滑，相应的速度越慢）
+　　　　GLdouble startAngle,　　　　　　　　 --扇形开始的角度
+　　　　GLdouble sweepAngle　　　　　　　　--扇形转过的角度
+);

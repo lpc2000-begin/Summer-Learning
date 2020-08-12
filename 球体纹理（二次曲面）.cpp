@@ -411,26 +411,6 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
 
  }  
 
- 
-	 /*CalculateNormal(a, b, c, dNormal);
-
-	 glNormal3f(dNormal[0],dNormal[1],dNormal[2]);
-
-     glTexCoord2f(0.0f,1.0f );
-
-	 glVertex3f(xx+x[0], yy+y[0],zz+z[0]);    
-
-     glTexCoord2f(0.0f,0.0f );
-
-	 glVertex3f(xx+x[1], yy+y[1],zz+z[1]); 
-	 
-	 glTexCoord2f(1.0f,0.0f );
-
-	 glVertex3f(xx+x[2], yy+y[2],zz+z[2]);  
-
- 	 glTexCoord2f(1.0f,1.0f );
-
-	 glVertex3f(xx+x[3], yy+y[3],zz+z[3]);*/
 
 }  
 

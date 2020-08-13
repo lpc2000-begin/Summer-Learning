@@ -308,8 +308,6 @@ void init(void)
 
 void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, GLfloat N)
 
-
-
 { 
 
 
@@ -322,7 +320,7 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
 
 
 
- double x[4],y[4],z[4],a[3],b[3],c[3]; 
+ double x[4],y[4],z[4],a[3],b[3],c[3],s[4],t[4]; 
 
 
  double dNormal[3];
@@ -345,7 +343,7 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
 
 
 
- for(i=0; i<M; i++)  
+ for(i=0; i<=M; i++)  
 
 
 
@@ -353,17 +351,20 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
 
  angle_z = i * step_z; 
 
- for(j=0; j<N; j++) 
-
- {    
+	for(j=0; j<=N; j++) 
+{    
 
  angle_xy = j * step_xy; 
 
  x[0] = radius * sin(angle_z) * cos(angle_xy); 
-
+ 
  y[0] = radius * sin(angle_z) * sin(angle_xy);   
 
- z[0] = radius * cos(angle_z);    
+ z[0] = radius * cos(angle_z);  
+ 
+ s[0]=angle_xy/(2*PI);
+
+ t[0]=angle_z/PI;
 
  x[1] = radius * sin(angle_z + step_z) * cos(angle_xy);   
 
@@ -371,17 +372,29 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
 
  z[1] = radius * cos(angle_z + step_z);    
 
+ s[1]=angle_xy/(2*PI);
+
+ t[1]=(angle_z + step_z)/PI;
+
  x[2] = radius*sin(angle_z + step_z)*cos(angle_xy + step_xy);    
 
  y[2] = radius*sin(angle_z + step_z)*sin(angle_xy + step_xy);    
 
  z[2] = radius*cos(angle_z + step_z);    
 
+ s[2]=(angle_xy + step_xy)/(2*PI);
+
+ t[2]=(angle_z + step_z)/PI;
+
  x[3] = radius * sin(angle_z) * cos(angle_xy + step_xy);    
 
  y[3] = radius * sin(angle_z) * sin(angle_xy + step_xy);    
 
  z[3] = radius * cos(angle_z);    
+
+ s[3]=(angle_xy + step_xy)/(2*PI);
+
+ t[3]=angle_z /PI;
 
  a[0]=x[0];
  a[1]=y[0];
@@ -394,23 +407,26 @@ void drawSphere(GLfloat xx, GLfloat yy, GLfloat zz, GLfloat radius, GLfloat M, G
  c[0]=x[2];
  c[1]=y[2];
  c[2]=z[2];
+ 
+ 
+ 
+ 
 
  for(int k=0; k<4; k++)    
 
 
 
  {    
-
+    
 	 CalculateNormal(a, b, c, dNormal);
 
 	 glNormal3f(dNormal[0],dNormal[1],dNormal[2]);
 
-     glTexCoord2f(x[k], y[k]);
+     glTexCoord2f(s[k],t[k]);
 
 	 glVertex3f(xx+x[k], yy+y[k],zz+z[k]);    
 
  }  
-
 
 }  
 
@@ -429,8 +445,6 @@ void earth()
 	qobj = gluNewQuadric();//申请空间
 
 	glPushMatrix();
-
-//允许建立一个绑定到目标纹理的有名称的纹理。
 
 	glEnable(GL_TEXTURE_2D);//启用二维纹理
 
@@ -489,9 +503,8 @@ void display(void)
 	glColorMaterial(GL_FRONT,GL_DIFFUSE);
 
 	glEnable(GL_COLOR_MATERIAL);
-
-        earth();
-    //drawSphere(0.0,0.0,0.0,4.0,600.0,600.0);
+//earth();
+    drawSphere(0.0,0.0,0.0,4.0,30.0,60.0);
 
 	//glutSolidSphere(5,20,20);
 

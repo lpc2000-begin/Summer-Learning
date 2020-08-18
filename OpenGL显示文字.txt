@@ -1,0 +1,44 @@
+wglUseFontBitmaps
+函数显示文字 
+----使用wglUseFontBitmaps()将ASCII字符装入显示列表，然后使用glCallLists()函数利用显示列表序列显示文本。wglUseFontBitmaps有四个参数，分别是当前使用的DC、从第几个ASCII字符起始装入列表、装入列表的ASCII字符数和起始的列表序号。glListBase()指定glCallLists执行的起始列表序列号。glCallLists()含有三个参数：执行列表序列的个数、列表值的类型和所要显示的文本。注意如果所要显示的文本是字符串，它所提供的信息是相对于起始装入ASCII字符的偏移量，因此最终所显示的ASCII字符是从glListBase()所指定的列表起始号在经过glCallLists()中偏移后的列表，因此wglUseFontBitmaps的从第几个ASCII字符起始装入列表参数、glListBase()指定的 glCallLists执行的起始列表序列号和glCallLists()中的所要显示的文本参数都可以影响最终显示结果。由于显示的是ASCII 字符，因此不能显示汉字。
+void CTextView::DrawListText()
+{
+wglUseFontBitmaps(wglGetCurrentDC(),0,256,1000);
+glListBase(1000);
+glRasterPos3f(－5.0f,0.0f,0.0f);
+glCallLists(20,GL_UNSIGNED
+ _BYTE,“Draw with List Text."); 
+}
+函数原型：
+BOOL WINAPI wglUseFontBitmaps(   HDC hdc,   DWORD first,   DWORD count,   DWORD listBase );
+可以使用wglUseFontBitmaps函数来批量的产生显示字符用的显示列表。
+函数有四个参数：
+第一个参数是HDC，学过Windows GDI的朋友应该会熟悉这个。如果没有学过，那也没关系，只要知道调用wglGetCurrentDC函数，就可以得到一个HDC了。
+第二个参数表示第一个要产生的字符，
+第三个参数表示要产生字符的总个数，
+第 四个参数表示第一个字符所对应显示列表的编号。假如这里填1000，则第一个字符的绘制命令将被装到第1000号显示列表，第二个字符的绘制命令将被装到 第1001号显示列表，依次类推。我们可以先用glGenLists申请128个连续的显示列表编号，然后把第一个显示列表编号填在这里。
+
+wglUseFontOutlines 
+函数显示三维文字 
+----wglUseFontOutlines使得OpenGL可以显示三维文字。它的用法与wglUseFontBitmaps函数大致相同，但是多了内插计算参数、字体深度、显示方式和装载字模的缓存四个参数，且只能显示TrueType字体，显示前应该先选择字体类型。具体函数实现如下： 
+void CTextView::Draw3DText()
+{
+GLYPHMETRICSFLOAT agmf[256]; 
+// create display lists for glyphs 0 through 255
+// with 0.1 extrusion and default deviation. 
+//The display list numbering starts at 1000 
+  (it could be any number) 
+wglUseFontOutlines(wglGetCurrentDC(),
+   0,255,1000,0.3f,0.8f, WGL_FONT_LINES ,agmf); 
+  
+// Set up transformation to draw the string 
+ glTranslatef(－15.0f,0.0f,0.0f);
+ glScalef(4.0f, 4.0f, 4.0f); 
+ // Display a string 
+ glListBase(1000);
+// Indicates the start of display lists for the glyphs
+// Draw the characters in a string 
+ 
+glCallLists(26, GL_UNSIGNED_BYTE,
+ “Draw outline list 3D text."); 
+}
